@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+gitAliases=(
+    "st"
+    "br"
+    "co"
+    "cob"
+    "dtnn"
+    "cfg"
+    "lol"
+    "cfgg"
+)
+
+gitCommands=(
+    "status"
+    "branch"
+    "checkout"
+    "checkout -b"
+    "diff-tree --no-commit-id --name-only -r"
+    "config"
+    "log --oneline"
+    "config --global"
+)
+cfgScope=""
+
+read -p "Do you want to set alias for global config (y/n)? " isGlobal
+
+if [[ ! "$isGlobal" =~ [^Yy$] ]]; then
+    cfgScope=" --global"
+fi
+
+for idx in "${!gitAliases[@]}"
+do
+    echo "* ${gitAliases[$idx]} alias..."
+    gitCommand="git config"
+    gitCommand+="$cfgScope alias."
+    gitCommand+="${gitAliases[$idx]} "
+    gitCommand+="'${gitCommands[$idx]}'"
+    $(eval "$gitCommand")
+done
+
+echo "Done. Bye :-h (wave)"
+echo "----------by NamNV609----------"
+exit 1
